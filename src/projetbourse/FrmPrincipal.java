@@ -298,19 +298,43 @@ public class FrmPrincipal extends javax.swing.JFrame {
            
           for(Trader tra : mesTraders)
           {  
-             for(Action act : tra.getLesActions())
+              
+              String NomTrader = tblTraders.getValueAt(tblTraders.getSelectedRow(), 1).toString();
+              
+              if(tra.getNomTrader()==NomTrader)
+              {
+                 for(Action act : tra.getLesActions())
                {
-                   String NomAction = tblActions.getValueAt(tblActions.getSelectedRow(), 2).toString();
+                   String NomAction = tblActions.getValueAt(tblActions.getSelectedRow(), 1).toString();
                 if(act.getNomAction()== NomAction) 
                 {
+                    if(quantiteVendue > act.getQuantiteAction())
+                    {
+                         v = new Vector();
+                   v.add(act.getIdAction());
+                   v.add(act.getNomAction());
+                   v.add(act.getValeurActionR());
+                   v.add(act.getValeurActionA());
                    v.add(act.getQuantiteAction()-quantiteVendue);
                    dtmActions.addRow(v);
+                    }
+                    else if(quantiteVendue == act.getQuantiteAction())
+                    {
+                        tblActions.remove(tblActions.getSelectedRow());
+                    }
+                        
+                    else 
+                    {
+                        JOptionPane.showMessageDialog(this, "Vous ne pouvez pas vendre plus que vous ne possedez");
+                    }
                 }
                 else
                 {
                    JOptionPane.showMessageDialog(this, "Veuillez saisir une action"); 
                 }
-               }
+               }  
+              }
+            
             
           }  
             
